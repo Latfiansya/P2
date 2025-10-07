@@ -28,6 +28,14 @@
                 let lokasi = data.location.name;
                 v.innerHTML = suhu + "&#8451;";
                 i.innerHTML = lokasi;
+
+            // Mengambil dan menampilkan data lainnya
+                let suhuFahrenheit = data.current.temp_f;
+                let kelembapan = data.current.humidity;
+                let negara = data.location.country;
+                let provinsi = data.location.region;
+                let longitude = data.location.lon;
+                let latitude = data.location.lat;
             },
             error : function(error){
                 console.log(error);
