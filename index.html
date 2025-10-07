@@ -36,6 +36,14 @@
                 let provinsi = data.location.region;
                 let longitude = data.location.lon;
                 let latitude = data.location.lat;
+
+                v.innerHTML += "<br>Suhu dalam Fahrenheit: " + suhuFahrenheit + "&#8457;";
+                v.innerHTML += "<br>Kelembapan: " + kelembapan + "%";
+                v.innerHTML += "<br>Negara: " + negara;
+                v.innerHTML += "<br>Provinsi: " + provinsi;
+                v.innerHTML += "<br>Longitude: " + longitude;
+                v.innerHTML += "<br>Latitude: " + latitude;
+                
             },
             error : function(error){
                 console.log(error);
