@@ -43,10 +43,11 @@
                 v.innerHTML += "<br>Provinsi: " + provinsi;
                 v.innerHTML += "<br>Longitude: " + longitude;
                 v.innerHTML += "<br>Latitude: " + latitude;
-                
+
             },
             error : function(error){
                 console.log(error);
+                alert("Lokasi tidcak ditemukan"); // Notifikasi jika lokasi tidak ditemukan
             },
         })
     </script>
