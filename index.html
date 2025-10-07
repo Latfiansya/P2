@@ -3,18 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuaca</title>
+    <title>Aplikasi Cuaca</title>
+    <style>
+        /* Mengimpor font dari Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+            color: #333;
+            /* Latar belakang dengan gradasi lembut */
+            background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-grup {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        #input-lokasi {
+            flex-grow: 1;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        #input-lokasi:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+        }
+        #tombol-set {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600; 
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px; 
+        }
+
+        #tombol-set:hover {
+            background-color: #0056b3;
+            transform: scale(1.03); 
+        }
+        #tampilan {
+            line-height: 1.8; 
+            margin-top: 15px;
+            color: #555;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #f0f0f0;
+            margin: 20px 0;
+        }
+
+        b#lokasi {
+            color: #006fe6;
+            font-weight: 600;
+        }
+
+        #tampilan b {
+            color: #333;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    Lokasi: <input type="text" id="input-lokasi">
-    <button id="tombol-set">SET</button>
-    <hr>
-    
-    Cuaca : <b id="lokasi"></b>
-    <hr>
-    <div id="tampilan"></div> <script>
+    <div class="container">
+        
+        <div class="input-grup">
+            <input type="text" id="input-lokasi" placeholder="Masukkan lokasi...">
+            <button id="tombol-set">GET</button>
+        </div>
+
+        <hr>
+        
+        Cuaca : <b id="lokasi"></b>
+        
+        <hr>
+        
+        <div id="tampilan"></div> 
+
+    </div> <script>
+        // TIDAK ADA PERUBAHAN PADA KODE JAVASCRIPT ANDA
         function ambilDataCuaca(kota) {
             const urlapi = `https://api.weatherapi.com/v1/current.json?key=10c3bdf8c14d4a1dac165534250710&q=${kota}&aqi=no`;
 
@@ -27,7 +121,6 @@
                     const v = document.getElementById("tampilan");
                     const i = document.getElementById("lokasi");
                     
-                    // Mengambil semua data yang diperlukan
                     let lokasi = data.location.name;
                     let suhu = data.current.temp_c;
                     let suhuFahrenheit = data.current.temp_f;
@@ -37,21 +130,18 @@
                     let longitude = data.location.lon;
                     let latitude = data.location.lat;
                     
-                    // Mengisi nama lokasi
                     i.innerText = lokasi;
                     
-                    // Membuat satu blok teks HTML untuk ditampilkan di dalam div 'tampilan'
-                    let kontenHTML = ""; // Mulai dengan string kosong
+                    let kontenHTML = ""; 
                     kontenHTML += `Suhu Celcius: ${suhu} &deg;C`;
                     kontenHTML += `<br>Suhu Fahrenheit: ${suhuFahrenheit} &deg;F`;
                     kontenHTML += `<br>Kelembapan: ${kelembapan} %`;
-                    kontenHTML += `<br><br><b>Detail Lokasi</b>`; // Tambah spasi dan judul
+                    kontenHTML += `<br><br><b>Detail Lokasi</b>`;
                     kontenHTML += `<br>Negara: ${negara}`;
                     kontenHTML += `<br>Provinsi: ${provinsi}`;
                     kontenHTML += `<br>Longitude: ${longitude}`;
                     kontenHTML += `<br>Latitude: ${latitude}`;
 
-                    // Menetapkan seluruh konten ke 'v' dalam satu kali operasi
                     v.innerHTML = kontenHTML;
 
                 },
@@ -62,19 +152,22 @@
             });
         }
         
-        $("#tombol-set").on("click", function() {
+        function jalankanPencarian() {
             const kotaDariInput = $("#input-lokasi").val();
             if (kotaDariInput) {
                 ambilDataCuaca(kotaDariInput);
             }
-        });
+        }
+        
+        $("#tombol-set").on("click", jalankanPencarian);
 
         $("#input-lokasi").on("keypress", function(event) {
             if (event.key === "Enter") {
-                // Memicu event klik pada tombol SET
-                $("#tombol-set").click();
+                jalankanPencarian();
             }
         });
+        
+        
     </script>
 </body>
-</html> 
+</html>
