@@ -10,46 +10,61 @@
     integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    Lokasi: <input type="text" id="input-lokasi" value="Yogyakarta">
+    <button id="tombol-set">SET</button>
+    <hr>
     Cuaca : <p id="lokasi"></p>
     <hr>
-    <div id="tampilan"></div>
+    Suhu Celcius: <div id="tampilan"></div>
+
+    <p>Suhu Fahrenheit: <span id="suhu-f"></span></p>
+    <p>Kelembapan: <span id="kelembapan"></span></p>
+    <h3>Detail Lokasi</h3>
+    <p>Negara: <span id="negara"></span></p>
+    <p>Provinsi: <span id="provinsi"></span></p>
+    <p>Longitude: <span id="longitude"></span></p>
 
     <script>
-        const urlapi = "http://api.weatherapi.com/v1/current.json?key=10c3bdf8c14d4a1dac165534250710&q=Yogyakarta&aqi=no";
+        // Membungkus AJAX dalam sebuah fungsi agar bisa dipanggil ulang
+        function ambilDataCuaca(kota) {
+            const urlapi = "http://api.weatherapi.com/v1/current.json?key=10c3bdf8c14d4a1dac165534250710&q=Yogyakarta&aqi=no";
 
-        $.ajax({
-            url : urlapi,
-            method : "GET",
-            success : function(data){
-                console.log(data);
-                const v = document.getElementById("tampilan");
-                const i = document.getElementById("lokasi");
-                let suhu = data.current.temp_c;
-                let lokasi = data.location.name;
-                v.innerHTML = suhu + "&#8451;";
-                i.innerHTML = lokasi;
+            $.ajax({
+                url : urlapi,
+                method : "GET",
+                success : function(data){
+                    console.log(data);
+                    const v = document.getElementById("tampilan");
+                    const i = document.getElementById("lokasi");
+                    let suhu = data.current.temp_c;
+                    let lokasi = data.location.name;
+                    v.innerHTML = suhu + "&#8451;";
+                    i.innerHTML = lokasi;
 
-            // Mengambil dan menampilkan data lainnya
-                let suhuFahrenheit = data.current.temp_f;
-                let kelembapan = data.current.humidity;
-                let negara = data.location.country;
-                let provinsi = data.location.region;
-                let longitude = data.location.lon;
-                let latitude = data.location.lat;
+                // Mengambil dan menampilkan data lainnya
+                    let suhuFahrenheit = data.current.temp_f;
+                    let kelembapan = data.current.humidity;
+                    let negara = data.location.country;
+                    let provinsi = data.location.region;
+                    let longitude = data.location.lon;
+                    let latitude = data.location.lat;
 
-                v.innerHTML += "<br>Suhu dalam Fahrenheit: " + suhuFahrenheit + "&#8457;";
-                v.innerHTML += "<br>Kelembapan: " + kelembapan + "%";
-                v.innerHTML += "<br>Negara: " + negara;
-                v.innerHTML += "<br>Provinsi: " + provinsi;
-                v.innerHTML += "<br>Longitude: " + longitude;
-                v.innerHTML += "<br>Latitude: " + latitude;
+                    v.innerHTML += "<br>Suhu dalam Fahrenheit: " + suhuFahrenheit + "&#8457;";
+                    v.innerHTML += "<br>Kelembapan: " + kelembapan + "%";
+                    v.innerHTML += "<br>Negara: " + negara;
+                    v.innerHTML += "<br>Provinsi: " + provinsi;
+                    v.innerHTML += "<br>Longitude: " + longitude;
+                    v.innerHTML += "<br>Latitude: " + latitude;
 
-            },
-            error : function(error){
-                console.log(error);
-                alert("Lokasi tidcak ditemukan"); // Notifikasi jika lokasi tidak ditemukan
-            },
-        })
+                },
+                error : function(error){
+                    console.log(error);
+                    alert("Lokasi tidcak ditemukan"); // Notifikasi jika lokasi tidak ditemukan
+                },
+            });
+        }
+        
+        
     </script>
 </body>
 </html> 
