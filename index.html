@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Cuaca</title>
+    <title>Website Cuaca</title>
     <style>
-        /* Mengimpor font dari Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
         body {
-            font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+            font-family: 'Poppins', sans-serif;
             color: #333;
-            /* Latar belakang dengan gradasi lembut */
             background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
             display: flex;
             justify-content: center;
@@ -108,7 +106,6 @@
         <div id="tampilan"></div> 
 
     </div> <script>
-        // TIDAK ADA PERUBAHAN PADA KODE JAVASCRIPT ANDA
         function ambilDataCuaca(kota) {
             const urlapi = `https://api.weatherapi.com/v1/current.json?key=10c3bdf8c14d4a1dac165534250710&q=${kota}&aqi=no`;
 
