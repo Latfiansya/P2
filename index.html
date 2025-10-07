@@ -6,65 +6,75 @@
     <title>Cuaca</title>
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
-    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    Lokasi: <input type="text" id="input-lokasi" value="Yogyakarta">
+    Lokasi: <input type="text" id="input-lokasi">
     <button id="tombol-set">SET</button>
     <hr>
-    Cuaca : <p id="lokasi"></p>
+    
+    Cuaca : <b id="lokasi"></b>
     <hr>
-    Suhu Celcius: <div id="tampilan"></div>
-
-    <p>Suhu Fahrenheit: <span id="suhu-f"></span></p>
-    <p>Kelembapan: <span id="kelembapan"></span></p>
-    <h3>Detail Lokasi</h3>
-    <p>Negara: <span id="negara"></span></p>
-    <p>Provinsi: <span id="provinsi"></span></p>
-    <p>Longitude: <span id="longitude"></span></p>
-
-    <script>
-        // Membungkus AJAX dalam sebuah fungsi agar bisa dipanggil ulang
+    <div id="tampilan"></div> <script>
         function ambilDataCuaca(kota) {
-            const urlapi = "http://api.weatherapi.com/v1/current.json?key=10c3bdf8c14d4a1dac165534250710&q=Yogyakarta&aqi=no";
+            const urlapi = `https://api.weatherapi.com/v1/current.json?key=10c3bdf8c14d4a1dac165534250710&q=${kota}&aqi=no`;
 
             $.ajax({
                 url : urlapi,
                 method : "GET",
                 success : function(data){
                     console.log(data);
+                    
                     const v = document.getElementById("tampilan");
                     const i = document.getElementById("lokasi");
-                    let suhu = data.current.temp_c;
+                    
+                    // Mengambil semua data yang diperlukan
                     let lokasi = data.location.name;
-                    v.innerHTML = suhu + "&#8451;";
-                    i.innerHTML = lokasi;
-
-                // Mengambil dan menampilkan data lainnya
+                    let suhu = data.current.temp_c;
                     let suhuFahrenheit = data.current.temp_f;
                     let kelembapan = data.current.humidity;
                     let negara = data.location.country;
                     let provinsi = data.location.region;
                     let longitude = data.location.lon;
                     let latitude = data.location.lat;
+                    
+                    // Mengisi nama lokasi
+                    i.innerText = lokasi;
+                    
+                    // Membuat satu blok teks HTML untuk ditampilkan di dalam div 'tampilan'
+                    let kontenHTML = ""; // Mulai dengan string kosong
+                    kontenHTML += `Suhu Celcius: ${suhu} &deg;C`;
+                    kontenHTML += `<br>Suhu Fahrenheit: ${suhuFahrenheit} &deg;F`;
+                    kontenHTML += `<br>Kelembapan: ${kelembapan} %`;
+                    kontenHTML += `<br><br><b>Detail Lokasi</b>`; // Tambah spasi dan judul
+                    kontenHTML += `<br>Negara: ${negara}`;
+                    kontenHTML += `<br>Provinsi: ${provinsi}`;
+                    kontenHTML += `<br>Longitude: ${longitude}`;
+                    kontenHTML += `<br>Latitude: ${latitude}`;
 
-                    v.innerHTML += "<br>Suhu dalam Fahrenheit: " + suhuFahrenheit + "&#8457;";
-                    v.innerHTML += "<br>Kelembapan: " + kelembapan + "%";
-                    v.innerHTML += "<br>Negara: " + negara;
-                    v.innerHTML += "<br>Provinsi: " + provinsi;
-                    v.innerHTML += "<br>Longitude: " + longitude;
-                    v.innerHTML += "<br>Latitude: " + latitude;
+                    // Menetapkan seluruh konten ke 'v' dalam satu kali operasi
+                    v.innerHTML = kontenHTML;
 
                 },
                 error : function(error){
                     console.log(error);
-                    alert("Lokasi tidcak ditemukan"); // Notifikasi jika lokasi tidak ditemukan
+                    alert("Lokasi tidak ditemukan");
                 },
             });
         }
         
-        
+        $("#tombol-set").on("click", function() {
+            const kotaDariInput = $("#input-lokasi").val();
+            if (kotaDariInput) {
+                ambilDataCuaca(kotaDariInput);
+            }
+        });
+
+        $("#input-lokasi").on("keypress", function(event) {
+            if (event.key === "Enter") {
+                // Memicu event klik pada tombol SET
+                $("#tombol-set").click();
+            }
+        });
     </script>
 </body>
 </html> 
